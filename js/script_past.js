@@ -182,16 +182,3 @@ class Minesweeper{
         return temp > 0? temp: 0;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

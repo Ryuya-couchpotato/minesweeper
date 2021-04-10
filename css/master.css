@@ -17,6 +17,8 @@ html, body {
 
 .visible {
   background: #fff;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .outline {
@@ -46,4 +48,14 @@ html, body {
 }
 .start:hover {
   background: #65ACD8;
+}
+
+/*game*/
+.game {
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-wrap: nowrap;
 }

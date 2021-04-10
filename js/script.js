@@ -80,12 +80,50 @@ class minesweeper {
     this.open_step2(x, y, pos);
     return 0;
   }
+  right(x, y){
+    var pos = this.width*y+x;
+    switch(this.status[pos]){
+      case 0:
+        this.status[pos] = 2;
+        break;
+      case 1:
+        return -1;
+      case 2:
+        this.status[pos] = 3;
+        break;
+      case 3:
+        this.status[pos] = 0;
+        break;
+    }
+    return 0;
+  }
+
 }
+
+function plot(ms){
+  var table = document.getElementById('minesweeper');
+  if(table.hasChildNodes()){
+      for(var i = table.childNodes.length-1; i >= 0; i--){
+          table.removeChild(table.childNodes[i]);
+      }
+  }
+  for(var i = 0; i < ms.height; i++){
+      const rowId = 'row'+String(i);
+      table.insertAdjacentHTML('beforeend', `<div class='row' id=${rowId}>`);
+      var row = document.getElementById(rowId);
+      var width = row.getBoundingClientRect().width;
+      for(var j = 0; j < ms.width; j++){
+          row.insertAdjacentHTML('beforeend', `<div><img src='img/cell.png' id=${ms.width*i+j} style='width: ${Math.floor(width/ms.width)}px;'></div>`);
+      }
+  }
+}
+
 
 function init(x, y, b){
   ms = new minesweeper(x, y, b);
   // console.log(ms);
   ms.setBomb(5, 5);
   ms.open(5, 5);
-  console.log(ms.map, ms.status);
+  // console.log(ms.map, ms.status);
+  plot(ms);
 }
