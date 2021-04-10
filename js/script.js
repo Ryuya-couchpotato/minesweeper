@@ -1,3 +1,7 @@
+'use strict';
+
+var ms;
+
 function move(from, to) {
   var f = document.getElementById(from);
   var t = document.getElementById(to);
@@ -43,9 +47,45 @@ class minesweeper {
     }
     // console.log(this.map);
   }
+
+  open_step2(x, y, pos){
+    if(this.map[pos] == 0){
+      // console.log(x, y, 'is 0');
+      for(var h=y-1; h <= y+1; h++){
+        if(h<0 || h>=this.height) continue;
+        for(var w=x-1; w <= x+1; w++){
+          if(w<0 || w>=this.width) continue;
+          if(this.status[this.width*h+w] != 0) continue;
+          // console.log(w, h, 'will open');
+          this.status[this.width*h+w] = 1;
+          if(this.map[this.width*h+w] == 0){
+            // console.log('find new 0');
+            this.open_step2(w, h, this.width*h+w);
+          }
+        }
+      }
+    }else{
+      this.status[pos] = 1;
+    }
+  }
+
+  open(x, y){
+    var pos = this.width*y+x;
+    if(this.status[pos] != 0){
+      return -1;
+    }else if(this.map[pos] == -1){
+      return -2;
+    }
+    //map[x, y]=0
+    this.open_step2(x, y, pos);
+    return 0;
+  }
 }
 
-function make(){
-  ms = new minesweeper(10, 10, 15);
-  ms.setBomb(0, 0);
+function init(x, y, b){
+  ms = new minesweeper(x, y, b);
+  // console.log(ms);
+  ms.setBomb(5, 5);
+  ms.open(5, 5);
+  console.log(ms.map, ms.status);
 }
