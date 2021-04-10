@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>マインスイーパー</title>
+    <link rel="stylesheet" href="css/master.css">
+  </head>
+  <body>
+    <div class="mainpanel top" id="top">
+      <p class="title">マインスイーパー</p>
+      <button type="button" name="start">start</button>
+    </div>
+    <div class="mainpanel setup" id="setup">
+      <p>難易度選択</p>
+      <button type="button" name="easy">簡単(10×10、爆弾15個)</button>
+      <button type="button" name="normal">普通()</button>
+      <button type="button" name="hard">難しい()</button>
+      <button type="button" name="customize">カスタム</button>
+    </div>
+    <div class="mainpanel customize" id="customize">
+      <p>カスタム</p>
+      <p>縦：<input type="range" class="range"><br>横：<input type="range" class="range"><br>爆弾：<input type="range" class="range"></p>
+      <button type="button" name="enter">start</button>
+    </div>
+    <div class="mainpanel game" id="game">　
+      <p>time: 00:00</p>
+      <table>
+        <tr>
+          <td>a</td><td>a</td>
+        </tr>
+        <tr>
+          <td>a</td><td>a</td>
+        </tr>
+      </table>
+    </div>
+    <div class="mainpanel result" id="result">
+      <p>? game clear : game over</p>
+      <p>time:00:00</p>
+      <p>ranking:<br>1: hoge 03:00<br>2: fuga 03:00...</p>
+    </div>
+  </body>
+</html>
