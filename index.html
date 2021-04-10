@@ -11,33 +11,40 @@
         <h1 class="title">マインスイーパー</h1>
         <p>難易度設定：
           <select id="level">
-            <option value=0>簡単</option>
-            <option value=1>普通</option>
-            <option value=2>難しい</option>
+            <option value=0>簡単(サイズ：10×10、 爆弾：12個)</option>
+            <option value=1>普通(サイズ：15×15、 爆弾：35個)</option>
+            <option value=2>難しい(サイズ：20×20、 爆弾：80個)</option>
             <option value=3>カスタム</option>
           </select>
         </p>
         <button type="button" class="start"
           onclick="var a=document.getElementById('level').value;
-            if(a<3){move('top', 'game');make();}
+            var b = [12, 35, 80];
+            if(a<3){move('top', 'game');init(10+a*5, 10+a*5, b[a]);}
             else{move('top', 'customize');}">
           start</button>
       </div>
       <div class="hidden customize" id="customize">
+        <button type="button" name="back" onclick="move('game', 'top')"><\-</button>
         <p>カスタム</p>
         <p>縦：<input type="range" class="range"><br>横：<input type="range" class="range"><br>爆弾：<input type="range" class="range"></p>
-        <button type="button" name="enter" onclick="move('customize', 'game'); make()">start</button>
+        <button type="button" name="enter" onclick="move('customize', 'game'); init()">start</button>
       </div>
       <div class="hidden game" id="game">
-        <p>time: 00:00</p>
-        <table>
-          <tr>
-            <td>a</td><td>a</td>
-          </tr>
-          <tr>
-            <td>a</td><td>a</td>
-          </tr>
-        </table>
+        <div class="back">
+          <button type="button" name="back" onclick="move('game', 'top')"><-</button>
+        </div>
+        <div class="">
+          <p>time: 00:00</p>
+          <table>
+            <tr>
+              <td>a</td><td>a</td>
+            </tr>
+            <tr>
+              <td>a</td><td>a</td>
+            </tr>
+          </table>
+        </div>
       </div>
       <div class="hidden result" id="result">
         <p id="result_txt">game clear</p>
