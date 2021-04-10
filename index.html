@@ -6,37 +6,45 @@
     <link rel="stylesheet" href="css/master.css">
   </head>
   <body>
-    <div class="mainpanel top" id="top">
-      <p class="title">マインスイーパー</p>
-      <button type="button" name="start">start</button>
-    </div>
-    <div class="mainpanel setup" id="setup">
-      <p>難易度選択</p>
-      <button type="button" name="easy">簡単(10×10、爆弾15個)</button>
-      <button type="button" name="normal">普通()</button>
-      <button type="button" name="hard">難しい()</button>
-      <button type="button" name="customize">カスタム</button>
-    </div>
-    <div class="mainpanel customize" id="customize">
-      <p>カスタム</p>
-      <p>縦：<input type="range" class="range"><br>横：<input type="range" class="range"><br>爆弾：<input type="range" class="range"></p>
-      <button type="button" name="enter">start</button>
-    </div>
-    <div class="mainpanel game" id="game">　
-      <p>time: 00:00</p>
-      <table>
-        <tr>
-          <td>a</td><td>a</td>
-        </tr>
-        <tr>
-          <td>a</td><td>a</td>
-        </tr>
-      </table>
-    </div>
-    <div class="mainpanel result" id="result">
-      <p>? game clear : game over</p>
-      <p>time:00:00</p>
-      <p>ranking:<br>1: hoge 03:00<br>2: fuga 03:00...</p>
+    <div class="outline">
+      <div class="visible top" id="top">
+        <h1 class="title">マインスイーパー</h1>
+        <p>難易度設定：
+          <select id="level">
+            <option value=0>簡単</option>
+            <option value=1>普通</option>
+            <option value=2>難しい</option>
+            <option value=3>カスタム</option>
+          </select>
+        </p>
+        <button type="button" class="start"
+          onclick="var a=document.getElementById('level').value;
+            if(a<3){move('top', 'game');make();}
+            else{move('top', 'customize');}">
+          start</button>
+      </div>
+      <div class="hidden customize" id="customize">
+        <p>カスタム</p>
+        <p>縦：<input type="range" class="range"><br>横：<input type="range" class="range"><br>爆弾：<input type="range" class="range"></p>
+        <button type="button" name="enter" onclick="move('customize', 'game'); make()">start</button>
+      </div>
+      <div class="hidden game" id="game">
+        <p>time: 00:00</p>
+        <table>
+          <tr>
+            <td>a</td><td>a</td>
+          </tr>
+          <tr>
+            <td>a</td><td>a</td>
+          </tr>
+        </table>
+      </div>
+      <div class="hidden result" id="result">
+        <p id="result_txt">game clear</p>
+        <p id="result_time">time:00:00</p>
+        <!--<p>ranking:<br>1: hoge 03:00<br>2: fuga 03:00...</p>-->
+      </div>
     </div>
   </body>
+  <script type="text/javascript" src="js/script.js"></script>
 </html>
