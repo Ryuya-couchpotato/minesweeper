@@ -1,0 +1,275 @@
+@charset "UTF-8";
+
+html{
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    background: lightgray;
+}
+
+body{
+    margin: 1rem;
+    background: #f6f6f8;
+}
+
+.title{
+    padding: 1rem;
+    font-size: 1.5rem;
+}
+
+.main{
+    margin: 1rem;
+    display: flex;
+    background: green;
+    min-height: 300px;
+}
+.setup_phase{
+    margin: 1rem;
+    background: lightcoral;
+}
+
+.level {
+    position: relative;
+    /*Don't really need this just for demo styling*/
+    min-width: 200px;
+  }
+  
+  /* IE11 hide native button (thanks Matt!) */
+  select::-ms-expand {
+  display: none;
+  }
+  
+  .level:after {
+    content: '<>';
+    font: 1.3rem "Consolas", monospace;
+    color: #333;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+    right: 8px;
+    /*Adjust for position however you want*/
+    
+    top: 6px;
+    padding: 0 0 2px;
+    border-bottom: 1px solid #999;
+    /*left line */
+    
+    position: absolute;
+    pointer-events: none;
+  }
+  
+  .level select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* Add some styling */
+    width: 100%;
+    display: block;
+    max-width: 320px;
+    margin: 0.5rem 0;
+    padding: 0px 24px;
+    line-height: 2.5;
+    color: #333;
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #cccccc;
+    -ms-word-break: normal;
+    word-break: normal;
+  }
+
+.customize{
+    background: lightblue;
+}
+.customize_size, .customize_bomb{
+    background: lightgoldenrodyellow;
+    display: inline-block;
+    width: 100%;
+}
+.category{
+    float: left;
+}
+.textbox{
+    text-align: right;
+}
+.textbox input{
+    max-width: 3rem;
+}
+
+.game_start{
+    text-align: center;
+    position: relative;
+    background: blue;
+    height: 100%;
+}
+.game_start p{
+    position: absolute;
+    width: 100%;
+    top: 55%;
+    text-align: center;
+}
+
+.game_start button{
+    border: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform : translate(-50%, -50%);
+    transform : translate(-50%, -50%);
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    text-decoration: none;
+    color: #FFF;
+    background: #fd9535;/*背景色*/
+    border-bottom: solid 2px #d27d00;/*少し濃い目の色に*/
+    border-radius: 4px;/*角の丸み*/
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+    font-weight: bold;
+}
+
+.main_phase{
+    margin: 1rem;
+    background: white;
+    width: 100%;
+}
+.game_hidden{
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: 0.8s;
+}
+.game_view{
+    height: 100%;
+    opacity: 1;
+    background: blanchedalmond;
+
+}
+
+.data p{
+    margin: 0.5rem;
+    text-align: center;
+}
+.intro{
+    margin: 1rem;
+}
+
+
+main{
+    padding: 1rem;
+    background: cornsilk;
+}
+
+#data{
+    display: flex;
+    padding: 1rem;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table{
+    border: solid medium black;
+    padding: 0px;
+    margin: 0px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td, tr{
+    margin: 0px;
+    font-size: 0px;
+}
+
+#data img{
+    vertical-align: text-bottom;
+    margin-right: 0.5rem;
+}
+
+#data p{
+    padding: 0.5rem;
+    text-align: center;
+}
+#bomb{
+    margin-left: auto;
+}
+#time{
+    margin-right: auto;
+}
+
+/*result*/
+.popup {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: .6s;
+  }
+  .popup.is-show {
+    opacity: 1;
+    visibility: visible;
+  }
+  .popup-inner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 80%;
+    max-width: 600px;
+    padding: 50px;
+    background-color: #fff;
+    z-index: 2;
+  }
+  .close-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .close-btn i {
+    font-size: 20px;
+    color: #333;
+  }
+  .black-background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.8);
+    z-index: 1;
+    cursor: pointer;
+  }
+
+  .res_button{
+    display: flex;
+  }
+  #newgame, #replay{
+    border: none;
+    position: relative;
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    text-decoration: none;
+    color: #FFF;
+    background: #fd9535;/*背景色*/
+    border-bottom: solid 2px #d27d00;/*少し濃い目の色に*/
+    border-radius: 4px;/*角の丸み*/
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+    font-weight: bold;
+    margin: 0.5rem;
+    margin-left: auto;
+  }
+  #replay{
+    margin-left: 0.5rem;
+    margin-right: auto;
+  }

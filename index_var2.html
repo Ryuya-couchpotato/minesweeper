@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../_common/css/master.css">
+        <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+        <script language="javascript" src="../_common/js/script.js"></script>
+        <title>minesweeper</title>
+    </head>
+    <body>
+        <header></header>
+        <div class='title'>マインスイーパー</div>
+        <div class='main'>
+            <div class='setup_phase'>
+                <div class='level'>
+                    <label>
+                        <select name="level" id="game_level">
+                            <option selected>easy</option>
+                            <option>normal</option>
+                            <option>hard</option>
+                            <option>custom</option>
+                        </select>
+                    </label>
+                </div>
+                <div class='customize' id='customize'>
+                    <div class='customize_size'>
+                        <p class="category">size</p>
+                        <p class="textbox">
+                            : 
+                            <input type="text" id="setup_size_x" disabled value="10">
+                            ×
+                            <input type="text" id="setup_size_y" disabled value="10">
+                        </p>
+                    </div>
+                    <div class='customize_bomb'>
+                        <p class="category">bomb</p>
+                        <p class="textbox">: <input type="text" id="setup_bomb" disabled value="15"></p>
+                    </div>
+                </div>
+            </div>
+            <div class='main_phase'>
+                <div class='game_start' id='game_start'>
+                    <button type="button" id="start">スタート</button>
+                    <p id="error_message" class="game_hidden"></p>
+                </div>
+                <div class='game_hidden' id='game_main'>
+                    <div class='data'>
+                        <p>time 00:00  bomb 15</p>
+                    </div>
+                    <div class='minesweeper_panel'>
+                        <p id='select_button_test'></p>
+                        <table id='minesweeper'>
+                            ここにゲーム画面を表示
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+            <div class='result_phase'>
+                <div class='popup_panel'>
+                    <div class='close_btn'></div>
+                    <div class='result'></div>
+                    <div class='next_btn'></div>
+                </div>
+                <div class='popup_background'></div>
+            </div>
+        </div>
+        <div class='intro'>作品紹介</div>
+        <footer></footer>
+        <script>
+            'use strict';
+            let x = 10, y = 10, bomb = 15;
+            let minesweeper;
+            let cells;
+
+            //setup
+            document.getElementById('game_level').onchange = function(){
+                const value = document.getElementById('game_level').value;
+                var size_x = document.getElementById('setup_size_x');
+                var size_y = document.getElementById('setup_size_y');
+                var bomb = document.getElementById('setup_bomb');
+
+                size_x.disabled = size_y.disabled = bomb.disabled = false;
+                if(value === 'custom'){
+                    return;
+                }else if(value === 'easy'){
+                    size_x.value = size_y.value = 10;
+                    bomb.value = 10;
+                }else if(value === 'normal'){
+                    size_x.value = 20;
+                    size_y.value = 15;
+                    bomb.value = 50;
+                }else if(value === 'hard'){
+                    size_x.value = 30;
+                    size_y.value = 20;
+                    bomb.value = 120;
+                }
+                size_x.disabled = size_y.disabled = bomb.disabled = true;
+            };
+
+            var matching = /^[1-9][0-9]{0,2}$/;
+            document.getElementById('start').onclick = function(){
+                switch(document.getElementById('game_level').value){
+                    case 'easy':
+                        x = y = 10;
+                        bomb = 15;
+                        break;
+                    case 'normal':
+                        x = 20;
+                        y = 15;
+                        bomb = 50;
+                        break;
+                    case 'hard':
+                        x = 30;
+                        y = 20;
+                        bomb = 120;
+                        break;
+                    case 'custom':
+                        x = document.getElementById('setup_size_x').value;
+                        y = document.getElementById('setup_size_y').value;
+                        bomb = document.getElementById('setup_bomb').value;
+                        if(matching.test(x) === false || matching.test(y) === false || matching.test(bomb) === false){
+                            document.getElementById('error_message').textContent = 'サイズは4~99、爆弾は1~999で入力してください';
+                            document.getElementById('error_message').classList.remove('game_hidden');
+                            return;
+                        }else if(x <= 3 || y <= 3 || x >= 100 || y >= 100){
+                            document.getElementById('error_message').textContent = 'サイズは4~99で入力してください';
+                            document.getElementById('error_message').classList.remove('game_hidden');
+                            return;
+                        }else if(x*y-10 < bomb){
+                            document.getElementById('error_message').textContent = '爆弾の数が多すぎます';
+                            document.getElementById('error_message').classList.remove('game_hidden');
+                            return;
+                        }
+                        break;
+                }
+                document.getElementById('game_start').classList.toggle('game_hidden');
+                document.getElementById('game_main').classList.toggle('game_view');
+            };
+            //main
+            minesweeper = new Minesweeper(x, y, bomb, 'minesweeper');
+            for(var i = 0; i < x*y; i++){
+                cells[i] = document.getElementById(`cell${x}_${y}`);
+                //右クリック無効化
+                cells[i].addEventListener('contextmenu', function(e){
+                    e.preventDefault();
+                }, false);
+                //クリック時のイベント追加
+                cells[i].addEventListener('mousedown', ()=>{
+                    switch(e.button){
+                        case 0://left click
+                            if(minesweeper.setBomb === false){
+                                initBomb(x, y);
+                            }
+                            minesweeper.open(x, y);
+
+                            if(minesweeper.isGameOver() === true){
+
+                            }else if(minesweeper.isGameClear() === true){
+                                
+                            }
+                            break;
+                        case 2://right click
+                            if(minesweeper.setBomb === true){
+                                minesweeper.marking();
+                            }
+                            break;
+                    }
+                }, false);
+            }
+            
+            //result
+
+
+        </script>
+    </body>
+
+
+    
+</html>
