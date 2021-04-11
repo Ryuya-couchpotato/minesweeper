@@ -21,23 +21,29 @@
           onclick="var a=document.getElementById('level').value;
             var b = [12, 35, 80];
             if(a<3){move('top', 'game');init(10+a*5, 10+a*5, b[a]);}
-            else{move('top', 'customize');}">
-          start</button>
+            else{move('top', 'customize');}">start</button>
       </div>
       <div class="hidden customize" id="customize">
-        <button type="button" name="back" onclick="move('game', 'top')"><\-</button>
+        <button type="button" name="back" onclick="move('customize', 'top')"><-</button>
         <p>カスタム</p>
-        <p>縦：<input type="range" class="range"><br>横：<input type="range" class="range"><br>爆弾：<input type="range" class="range"></p>
-        <button type="button" name="enter" onclick="move('customize', 'game'); init()">start</button>
+        <p>縦：<input type="range" class="range" id="vertical" max=30 min=5 value=15><input type="number" class="cui" id="v_tbox" max=30 min=5 value=15><br>
+          横：<input type="range" class="range" id="horizontal" max=30 min=5 value=15><input type="number" class="cui" id="h_tbox" max=30 min=5 value=15><br>
+          爆弾：<input type="range" class="range" id="bomb" max=216 min=1 value=35><input type="number" class="cui" id="b_tbox" min=1 max=216 value=35></p>
+        <button type="button" class="start"
+          onclick="move('customize', 'game');
+          var v = document.getElementById('vertical').value;
+          var h = document.getElementById('horizontal').value;
+          var b = document.getElementById('bomb').value;
+          init(h, v, b);">start</button>
       </div>
       <div class="hidden game" id="game">
-        <div class="back">
-          <button type="button" name="back" onclick="move('game', 'top')"><-</button>
+        <div class="back" id="back_game">
+          <button type="button" name="back" onclick="move('game', 'top')" class="nodec"><-</button>
         </div>
-        <div class="">
-          <p>time: 00:00</p>
+        <div class="timer" id="timer">
+          <p class="nodec">time: 00:00</p>
         </div>
-        <div class="" id="minesweeper">
+        <div class="game_main" id="minesweeper">
 
         </div>
       </div>

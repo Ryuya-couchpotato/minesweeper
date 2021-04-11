@@ -1,6 +1,37 @@
 'use strict';
 
 var ms;
+window.onload = function () {
+  var v = document.getElementById("vertical");
+  var h = document.getElementById("horizontal");
+  var vt = document.getElementById("v_tbox");
+  var ht = document.getElementById("h_tbox");
+  var b = document.getElementById("bomb")
+  var bt = document.getElementById("b_tbox");
+    // 選択した際のイベント取得
+    v.addEventListener('change', (e) => {
+      vt.value = v.value;
+      b.max = bt.max = v.value*h.value-9;
+    });
+    vt.addEventListener('change', (e) => {
+      v.value = vt.value;
+      b.max = bt.max = v.value*h.value-9;
+    });
+    h.addEventListener('change', (e) => {
+      ht.value = h.value;
+      b.max = bt.max = v.value*h.value-9;
+    });
+    ht.addEventListener('change', (e) => {
+      h.value = ht.value;
+      b.max = bt.max = v.value*h.value-9;
+    });
+    b.addEventListener('change', (e) => {
+      bt.value = b.value;
+    });
+    bt.addEventListener('change', (e) => {
+      b.value = bt.value;
+    });
+  }
 
 function move(from, to) {
   var f = document.getElementById(from);
@@ -112,8 +143,14 @@ function plot(ms){
       table.insertAdjacentHTML('beforeend', `<div class='row' id=${rowId}>`);
       var row = document.getElementById(rowId);
       var width = row.getBoundingClientRect().width;
+      var outline = document.getElementById('outline').getBoundingClientRect().height;
+      var btn = document.getElementById('back_game').getBoundingClientRect().height;
+      var timer = document.getElementById('timer').getBoundingClientRect().height;
+      // console.log(width, outline-btn-timer);
+      var size = width/ms.width;
+      if(size > (outline-btn-timer)/ms.height) size = (outline-btn-timer)/ms.height;
       for(var j = 0; j < ms.width; j++){
-          row.insertAdjacentHTML('beforeend', `<div><img src='img/cell.png' id=${ms.width*i+j} style='width: ${Math.floor(width/ms.width)}px;'></div>`);
+          row.insertAdjacentHTML('beforeend', `<div><img src='img/cell.png' id=${ms.width*i+j} style='width: ${size}px;'></div>`);
       }
   }
 }
