@@ -179,29 +179,40 @@ function plot(ms){
         }
       }
       row.insertAdjacentHTML('beforeend', `<div><img src=${src} id=${pos} style='width: ${size}px;'></div>`);
-      document.getElementById(pos).onclick = function(e){
-        var e = e || window.event;
-        var elem = e.target || e.srcElement;
-        var elemId = elem.id;
-        if(ms.isSetBomb == false){
-          ms.setBomb(elemId%ms.width, Math.floor(elemId/ms.width));
-        }
-        // console.log(elemId, ms.map[elemId], ms.status[elemId]);
-        var result = ms.open(elemId%ms.width, Math.floor(elemId/ms.width));
-        switch (ms.result()) {
-          case -1:
-            console.log('game over');
-            break;
-          case 0:
-            break;
-          case 1:
-            console.log('game clear');
-            break;
-        }
-        plot(ms);
-      };
+      document.getElementById(pos).onclick = clickCell;
+      document.getElementById(pos).oncontextmenu = rightClickCell;
     }
   }
+}
+
+function clickCell(e){
+    var e = e || window.event;
+    var elem = e.target || e.srcElement;
+    var elemId = elem.id;
+    if(ms.isSetBomb == false){
+      ms.setBomb(elemId%ms.width, Math.floor(elemId/ms.width));
+    }
+    // console.log(elemId, ms.map[elemId], ms.status[elemId]);
+    var result = ms.open(elemId%ms.width, Math.floor(elemId/ms.width));
+    switch (ms.result()) {
+      case -1:
+        console.log('game over');
+        break;
+      case 0:
+        break;
+      case 1:
+        console.log('game clear');
+        break;
+    }
+    plot(ms);
+}
+
+function rightClickCell(e){
+  var e = e || window.event;
+  var elem = e.target || e.srcElement;
+  var elemId = elem.id;
+  ms.right(elemId%ms.width, Math.floor(elemId/ms.width));
+  plot(ms);
 }
 
 function init(x, y, b){
