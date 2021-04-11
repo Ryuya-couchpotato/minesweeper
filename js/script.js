@@ -1,6 +1,6 @@
 'use strict';
 
-var ms;
+var ms, start;
 window.onload = function () {
   var v = document.getElementById("vertical");
   var h = document.getElementById("horizontal");
@@ -160,6 +160,14 @@ function addevent(ms){
 
 
 function init(x, y, b){
+  start = Date.now();
+  var timer = function(){
+    var now = Date.now();
+    document.getElementById('timer').textContent = 'time: '+
+      ('0' + String(Math.floor((now-start)/60000))).slice(-2)+':'+
+      ('0' + String(Math.floor((now-start)/1000)%60)).slice(-2);
+  };
+  setInterval(timer, 1000);
   ms = new minesweeper(x, y, b);
   // console.log(ms);
   ms.setBomb(5, 5);
