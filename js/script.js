@@ -1,6 +1,8 @@
 'use strict';
 
 var ms, start;
+var cellImg_close = ['img/cell.png', 'err', 'img/cell_flag.png', 'img/cell_ques.png'];
+var cellImg_bomb = 'img/cell_bomb.png';
 window.onload = function () {
   var v = document.getElementById("vertical");
   var h = document.getElementById("horizontal");
@@ -49,13 +51,16 @@ class minesweeper {
     this.height = height;
     this.bomb = bomb;
     this.map = []
+    this.isSetBomb = false;
     this.status = []//0:close, 1:open, 2:flag, 3:ques.
     for(var i=0; i<this.width*this.height; i++){
       this.map.push(0);
       this.status.push(0);
     }
+
   }
   setBomb(x, y){
+    this.isSetBomb = true;
     var rest = this.bomb;
     while(rest > 0){
       var pos = Math.floor(Math.random() * this.width*this.height);
@@ -89,6 +94,7 @@ class minesweeper {
           if(this.status[this.width*h+w] != 0) continue;
           // console.log(w, h, 'will open');
           this.status[this.width*h+w] = 1;
+
           if(this.map[this.width*h+w] == 0){
             // console.log('find new 0');
             this.open_step2(w, h, this.width*h+w);
@@ -105,6 +111,7 @@ class minesweeper {
     if(this.status[pos] != 0){
       return -1;
     }else if(this.map[pos] == -1){
+      this.status[pos] = 1;
       return -2;
     }
     //map[x, y]=0
@@ -128,7 +135,20 @@ class minesweeper {
     }
     return 0;
   }
-
+  result(){
+    var flag = 1;
+    for(var i=0; i < this.width*this.height; i++){
+      if(this.map[i] == -1){
+        if(this.status[i] == 1){
+          return -1;
+        }
+      }
+      else if(this.status[i] == 0){
+        flag = 0;
+      }
+    }
+    return flag;
+  }
 }
 
 function plot(ms){
@@ -139,25 +159,50 @@ function plot(ms){
       }
   }
   for(var i = 0; i < ms.height; i++){
-      const rowId = 'row'+String(i);
-      table.insertAdjacentHTML('beforeend', `<div class='row' id=${rowId}>`);
-      var row = document.getElementById(rowId);
-      var width = row.getBoundingClientRect().width;
-      var outline = document.getElementById('outline').getBoundingClientRect().height;
-      var opt = document.getElementById('option').getBoundingClientRect().height;
-      // console.log(width, outline-btn-timer);
-      var size = width/ms.width;
-      if(size > (outline-opt)/ms.height) size = (outline-opt)/ms.height;
-      for(var j = 0; j < ms.width; j++){
-          row.insertAdjacentHTML('beforeend', `<div><img src='img/cell.png' id=${ms.width*i+j} style='width: ${size}px;'></div>`);
+    const rowId = 'row'+String(i);
+    table.insertAdjacentHTML('beforeend', `<div class='row' id=${rowId}>`);
+    var row = document.getElementById(rowId);
+    var width = row.getBoundingClientRect().width;
+    var outline = document.getElementById('outline').getBoundingClientRect().height;
+    var opt = document.getElementById('option').getBoundingClientRect().height;
+    // console.log(width, outline-btn-timer);
+    var size = width/ms.width;
+    if(size > (outline-opt)/ms.height) size = (outline-opt)/ms.height;
+    for(var j = 0; j < ms.width; j++){
+      var pos = ms.width*i+j;
+      var src = cellImg_close[ms.status[pos]];
+      if(src == 'err'){
+        if(ms.map[pos] == -1){
+          src = cellImg_bomb;
+        }else{
+          src = 'img/cell_'+String(ms.map[pos])+'.png';
+        }
       }
+      row.insertAdjacentHTML('beforeend', `<div><img src=${src} id=${pos} style='width: ${size}px;'></div>`);
+      document.getElementById(pos).onclick = function(e){
+        var e = e || window.event;
+        var elem = e.target || e.srcElement;
+        var elemId = elem.id;
+        if(ms.isSetBomb == false){
+          ms.setBomb(elemId%ms.width, Math.floor(elemId/ms.width));
+        }
+        // console.log(elemId, ms.map[elemId], ms.status[elemId]);
+        var result = ms.open(elemId%ms.width, Math.floor(elemId/ms.width));
+        switch (ms.result()) {
+          case -1:
+            console.log('game over');
+            break;
+          case 0:
+            break;
+          case 1:
+            console.log('game clear');
+            break;
+        }
+        plot(ms);
+      };
+    }
   }
 }
-
-function addevent(ms){
-
-}
-
 
 function init(x, y, b){
   start = Date.now();
@@ -170,8 +215,8 @@ function init(x, y, b){
   setInterval(timer, 1000);
   ms = new minesweeper(x, y, b);
   // console.log(ms);
-  ms.setBomb(5, 5);
-  ms.open(5, 5);
+  // ms.setBomb(5, 5);
+  // ms.open(5, 5);
   // console.log(ms.map, ms.status);
   plot(ms);
 }
