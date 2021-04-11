@@ -24,7 +24,7 @@
             else{move('top', 'customize');}">start</button>
       </div>
       <div class="hidden customize" id="customize">
-        <button type="button" name="back" onclick="move('customize', 'top')"><-</button>
+        <button type="button" name="back" onclick="move('customize', 'top')" ><img src='img/back.png' width="20px"></button>
         <p>カスタム</p>
         <p>縦：<input type="range" class="range" id="vertical" max=30 min=5 value=15><input type="number" class="cui" id="v_tbox" max=30 min=5 value=15><br>
           横：<input type="range" class="range" id="horizontal" max=30 min=5 value=15><input type="number" class="cui" id="h_tbox" max=30 min=5 value=15><br>
@@ -37,14 +37,11 @@
           init(h, v, b);">start</button>
       </div>
       <div class="hidden game" id="game">
-        <div class="back" id="back_game">
-          <button type="button" name="back" onclick="move('game', 'top')" class="nodec"><-</button>
-        </div>
-        <div class="timer" id="timer">
+        <div class="option" id="option">
+          <button type="button" name="back" onclick="move('game', 'top')" class="nodec"><img src='img/back.png' width="20px"></button>
           <p class="nodec">time: 00:00</p>
         </div>
         <div class="game_main" id="minesweeper">
-
         </div>
       </div>
       <div class="hidden result" id="result">

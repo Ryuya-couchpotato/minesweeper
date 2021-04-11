@@ -144,15 +144,18 @@ function plot(ms){
       var row = document.getElementById(rowId);
       var width = row.getBoundingClientRect().width;
       var outline = document.getElementById('outline').getBoundingClientRect().height;
-      var btn = document.getElementById('back_game').getBoundingClientRect().height;
-      var timer = document.getElementById('timer').getBoundingClientRect().height;
+      var opt = document.getElementById('option').getBoundingClientRect().height;
       // console.log(width, outline-btn-timer);
       var size = width/ms.width;
-      if(size > (outline-btn-timer)/ms.height) size = (outline-btn-timer)/ms.height;
+      if(size > (outline-opt)/ms.height) size = (outline-opt)/ms.height;
       for(var j = 0; j < ms.width; j++){
           row.insertAdjacentHTML('beforeend', `<div><img src='img/cell.png' id=${ms.width*i+j} style='width: ${size}px;'></div>`);
       }
   }
+}
+
+function addevent(ms){
+
 }
 
 
