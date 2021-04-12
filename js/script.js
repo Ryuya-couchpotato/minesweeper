@@ -151,6 +151,7 @@ class minesweeper {
   }
 }
 
+//////////////////////////////////////////////
 function plot(ms){
   var table = document.getElementById('minesweeper');
   if(table.hasChildNodes()){
@@ -185,6 +186,11 @@ function plot(ms){
   }
 }
 
+function result_txt(result, time){
+  document.getElementById('result_txt').textContent = result;
+  document.getElementById('result_time').textContent = time;
+}
+
 function clickCell(e){
     var e = e || window.event;
     var elem = e.target || e.srcElement;
@@ -196,12 +202,24 @@ function clickCell(e){
     var result = ms.open(elemId%ms.width, Math.floor(elemId/ms.width));
     switch (ms.result()) {
       case -1:
-        console.log('game over');
+        // console.log('game over');
+        move('game', 'result');
+        var diff = Date.now() - start;
+        var m = String(Math.floor(diff/60000));
+        if(m.length == 1) m = '0'+m;
+        var s = ('0' + String(Math.floor((diff)/1000)%60)).slice(-2);
+        result_txt('game over', 'time: '+m+':'+s);
         break;
       case 0:
         break;
       case 1:
-        console.log('game clear');
+        // console.log('game clear');
+        move('game', 'result');
+        var diff = Date.now() - start;
+        var m = String(Math.floor(diff/60000));
+        if(m.length == 1) m = '0'+m;
+        var s = ('0' + String(Math.floor((diff)/1000)%60)).slice(-2);
+        result_txt('game clear', 'time: '+m+':'+s);
         break;
     }
     plot(ms);
